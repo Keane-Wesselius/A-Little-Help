@@ -1,0 +1,10 @@
+# Ignore all text files
+*.txt
+
+# Ignore files related to API keys
+.env
+
+
+google/gDrive.json
+
+__pycache__*/
