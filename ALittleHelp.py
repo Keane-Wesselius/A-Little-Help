@@ -4,6 +4,10 @@ from discord.ext import commands
 #from discord_slash import SlashCommand
 import google.doc_creator as doc_creator
 import webscraper.webScraper as scraper
+import time
+import threading
+import asyncio
+from datetime import datetime
 
 TOKEN = open("/home/pi/Python/A-Little-Help/Token.txt", "r").readline()
 BOT_LINK = open("/home/pi/Python/A-Little-Help/botAccessLink.txt", "r").readline()
@@ -109,6 +113,7 @@ async def help(ctx):
     embed.add_field(name='!createSlide', value='Creates a Google Slide and returns a link to the slide', inline=False)
     embed.add_field(name='!createSheet', value='Creates a Google Sheet and returns a link to the sheet', inline=False)
     embed.add_field(name='!addBot', value='Displays a link to add the bot to another server', inline=False)
+    embed.add_field(name='!youtube', value='Posts a link about a youtube video of your search query', inline=False)
     await ctx.send(embed=embed)
 
 
@@ -336,6 +341,65 @@ async def addBot(ctx):
     
 
 ################################################################################################################################################################################
+date_format = '%m-%d-%Y %H:%M:%S'
+example = '06-25-2023 13:00:00'
+
+def timer(ctx, timeup, message):
+    while True:
+        if time.time() >= timeup:
+            asyncio.run_coroutine_threadsafe(ctx.send("@everyone " + message), bot.loop)
+            return
+
+def timerAsyncWrapper(ctx, timeup, message):
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    future = asyncio.ensure_future(timer(ctx, timeup, message)) # tasks to do
+    loop.run_until_complete(future)
+
+    #asyncio.get_event_loop().create_task(timer(ctx, timeup, message))
+
+def startReminder(ctx, timestamp, timer_message):
+
+    t = threading.Thread(target=timerAsyncWrapper, args=(ctx, timestamp, timer_message,))
+    t.start()
+
+
+def convertToTimestamp(date_string):
+    #Turn date and time string into a datetime object
+    date_time = datetime.strptime(date_string, date_format)
+    # Convert the datetime object to a timestamp
+    timestamp = datetime.timestamp(date_time)
+    return timestamp
+
+@bot.command()
+async def reminder(ctx, date=None, time=None, *args):
+    message = "Reminder"
+    if date == None:
+        await ctx.send("Date not specified")
+        return
+    if time == None:
+        await ctx.send("Time not specified")
+        return
+    if (args):
+        message = " ".join(args)
+    
+
+        
+    date_string = date + " " + time
+    try:
+        timestamp = convertToTimestamp(date_string)
+    except e:
+        await ctx.send("Invalid date or time must be in the form M-D-Y H:M:S")
+        return
+    
+    thread = threading.Thread(target=timer, args=(ctx, timestamp, message,))
+    thread.start()
+    await ctx.send("Reminder Created!")
+    #startReminder(ctx, timestamp, message)
+    
+
+
+    
 
 
 
