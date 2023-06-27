@@ -11,8 +11,8 @@ from datetime import datetime
 
 TOKEN = open("/home/pi/Python/A-Little-Help/Token.txt", "r").readline()
 BOT_LINK = open("/home/pi/Python/A-Little-Help/botAccessLink.txt", "r").readline()
+EXTENSIONS = ['cogs.Math', 'cogs.Secret_Message']
 GUILD = 'Davidamiright?'
-CODE_KEY = 250
 SECRET_ERROR = "Spaghetti"
 
 #intents=discord.Intents.all()
@@ -33,6 +33,8 @@ async def on_ready():
     for guild in bot.guilds:
         if guild.name == GUILD:
             break    
+    for extension in EXTENSIONS:
+        await bot.load_extension(extension)
     print(f'{bot.user} is connected to the following guild')
     print(f'Guild Name: {guild.name}')
     print(f'Guild ID: {guild.id}')
@@ -120,149 +122,6 @@ async def help(ctx):
 ################################################################################################################################################################
 
 
-
-@bot.command()
-#@slash.slash(name="add", description="Add numbers")
-async def add(ctx, arg1=None, *argv):
-    flag = False
-    try:
-        sum = float(arg1)
-    except:
-        flag = True
-        
-    for arg in argv:
-        if (flag):
-            break
-        try:
-            sum = sum + float(arg)
-        except ValueError:
-            flag = True
-
-    if (flag):
-        await ctx.send(f'Invalid Input: Enter numbers seperated by spaces')
-    else:        
-        await ctx.send(f'= {sum}')
-
-
-####################################################################################################################################
-
-
-
-@bot.command()
-#@slash.slash(name="mult", description="Multiply numbers")
-async def mult(ctx, arg1=None, *argv):
-    flag = False
-    try:
-        product = float(arg1)
-    except:
-        flag = True
-    for arg in argv:
-        if (flag):
-            break
-        try:
-            product = product * float(arg)
-        except ValueError:
-            flag = True
-
-    if (flag):
-        await ctx.send(f'Invalid Input: Enter numbers seperated by spaces')
-    else:        
-        await ctx.send(f'= {product}')
-        
-
-#################################################################################################################################
-
-
-@bot.command()
-#@slash.slash(name="sub", description="Subtract numbers")
-async def sub(ctx, arg1=None, *argv):
-    flag = False
-    try:
-        difference = float(arg1)
-    except:
-        flag = True
-
-         
-    for arg in argv:
-        if (flag):
-            break
-        try:
-            difference = difference - float(arg)
-        except ValueError:
-            flag = True
-            
-    if (flag):
-        await ctx.send(f'Invalid Input: Enter numbers seperated by spaces')
-    else:        
-        await ctx.send(f'= {difference}')
-        
-
-#######################################################################################################################
-
-
-@bot.command()
-#@slash.slash(name="div", description="Divide numbers")
-async def div(ctx, arg1=None, *argv):
-    flag = False
-
-    try:
-        quotient = float(arg1)
-    except:
-        flag = True
-        
-    for arg in argv:
-        if (flag):
-            break
-        try:
-            quotient = quotient / float(arg)
-        except ValueError:
-            flag = True
-        except ZeroDivisionError:
-            quotient = "Division by zero error"
-            break
-
-    if (flag):
-        await ctx.send(f'Invalid Input: Enter numbers seperated by spaces')
-    else:        
-        await ctx.send(f'= {quotient}')        
-
-
-#############################################################################################################################
-
-
-@bot.command()
-#@slash.slash(name="encode", description="Scambles text")
-async def encode(ctx, *args):
-    message = ""
-    if (args):
-        args = " ".join(args)
-        for element in args:
-            element = chr(ord(element) + CODE_KEY)
-            message += element
-        await ctx.send(message)
-    else:
-        for element in SECRET_ERROR:
-            element = chr(ord(element) + CODE_KEY)
-            message += element
-        await ctx.send(message)
-
-
-###############################################################################################################################
-
-
-
-@bot.command()
-#@slash.slash(name="decode", description="Descrambles text")
-async def decode(ctx, *args):
-    message = ""
-    if (args):
-        args = " ".join(args)
-        for element in args:
-            element = chr(ord(element) - CODE_KEY)
-            message += element
-        await ctx.send(message)
-    else:
-        await ctx.send("Invalid Input: You must provide text to decode")
 
 
 
