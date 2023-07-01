@@ -1,5 +1,7 @@
 from discord.ext import commands
-from ..webscraper import webScraper as scraper
+import sys
+sys.path.append('..')
+import webscraper.webScraper as scraper
 
 class Scraper(commands.Cog):
 

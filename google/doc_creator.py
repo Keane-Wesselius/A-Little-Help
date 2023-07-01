@@ -6,19 +6,22 @@ from googleapiclient.errors import HttpError
 class Doc_Creator:
 
     def __init__(self) -> None:
+        #API_Key to be able to use googles services
         API_KEY = "/home/pi/Python/A-Little-Help/google/gDrive.json"
 
-        # Create the file with the desired name
+        # Get the Scopes (permissions) to be able to create each type of document and interact with google drive
         DOCS_SCOPE = "https://www.googleapis.com/auth/documents"
         SLIDES_SCOPE = "https://www.googleapis.com/auth/presentations"
         DRIVE_SCOPE = "https://www.googleapis.com/auth/drive"
         SHEETS_SCOPE = "https://www.googleapis.com/auth/spreadsheets"
 
+        #create the credentials to use the service
         creds = Credentials.from_service_account_file(
             API_KEY,
             scopes=[DOCS_SCOPE, SLIDES_SCOPE, DRIVE_SCOPE, SHEETS_SCOPE]
         )
 
+        #Sets the version of the api service we are using and gets the actual services so we can use them
         self.docs_service = build("docs", "v1", credentials=creds)
         self.slides_service = build("slides", "v1", credentials=creds)
         self.drive_service = build("drive", "v3", credentials=creds)

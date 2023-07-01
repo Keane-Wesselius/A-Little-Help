@@ -1,12 +1,12 @@
 from discord.ext import commands
 
+#This cog contains functions that allow the bot to do basic arithmetic
 class Math(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command()
-    #@slash.slash(name="add", description="Add numbers")
     async def add(self, ctx, arg1=None, *argv):
         flag = False
         try:
@@ -33,7 +33,6 @@ class Math(commands.Cog):
 
 
     @commands.command()
-    #@slash.slash(name="mult", description="Multiply numbers")
     async def mult(self, ctx, arg1=None, *argv):
         flag = False
         try:
@@ -58,7 +57,6 @@ class Math(commands.Cog):
 
 
     @commands.command()
-    #@slash.slash(name="sub", description="Subtract numbers")
     async def sub(self, ctx, arg1=None, *argv):
         flag = False
         try:
@@ -85,7 +83,6 @@ class Math(commands.Cog):
 
 
     @commands.command()
-    #@slash.slash(name="div", description="Divide numbers")
     async def div(self, ctx, arg1=None, *argv):
         flag = False
 
