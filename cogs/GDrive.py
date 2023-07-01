@@ -4,16 +4,17 @@ sys.path.append('..')
 import google.doc_creator
 
 
-
+#This cog provides the bot with functionality to create Google docs, sheets, and slides.
+#The resulting file is shared via a link that allows anyone with the link to edit the files
+#Used to help speed up coloborations with others so no waiting for file creation and changing of permissions
 class GDrive(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
         self.google = doc_creator.Doc_Creator()
 
-
+    #Creates a google doc file and shares the link, if no filename is given a default one is picked
     @commands.command()
-    #@slash.slash(name="createDoc", description="Creates a Google Doc file")
     async def createDoc(self, ctx, *args):
         if (args):
             args = " ".join(args)
@@ -23,9 +24,8 @@ class GDrive(commands.Cog):
             url = self.google.createDoc()
             await ctx.send(url)
 
-
+    #Creates a google slide file and shares the link, if no filename is given a default one is picked
     @commands.command()
-    #@slash.slash(name="createSlide", description="Creates a Google Slide file")
     async def createSlide(self, ctx, *args):
         if (args):
             args = " ".join(args)
@@ -35,9 +35,8 @@ class GDrive(commands.Cog):
             url = self.google.createSlide()
             await ctx.send(url)
 
-
+    #Creates a google sheet file and shares the link, if no filename is given a default one is picked
     @commands.command()
-    #@slash.slash(name="createSheet", description="Creates a Google Sheet file")
     async def createSheet(self, ctx, *args):
         if (args):
             args = " ".join(args)

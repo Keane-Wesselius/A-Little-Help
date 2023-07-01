@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 
+#The help cog is to provide help with all the bot commands, listing them all and providing examples for each of them
 class Help(commands.Cog):
 
     def __init__(self, bot):
