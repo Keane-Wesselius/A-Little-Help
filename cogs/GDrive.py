@@ -1,7 +1,7 @@
 from discord.ext import commands
 import sys
 sys.path.append('..')
-import google.doc_creator
+import google.doc_creator as doc_creator
 
 
 #This cog provides the bot with functionality to create Google docs, sheets, and slides.
