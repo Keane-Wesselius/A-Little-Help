@@ -22,10 +22,13 @@ class Doc_Creator:
         )
 
         #Sets the version of the api service we are using and gets the actual services so we can use them
-        self.drive_service = build("drive", "v3", credentials=creds)
-        self.docs_service = build("docs", "v1", credentials=creds)
-        self.slides_service = build("slides", "v1", credentials=creds)
-        self.sheets_service = build("sheets", "v4", credentials=creds)
+        try:
+            self.drive_service = build("drive", "v3", credentials=creds)
+            self.docs_service = build("docs", "v1", credentials=creds)
+            self.slides_service = build("slides", "v1", credentials=creds)
+            self.sheets_service = build("sheets", "v4", credentials=creds)
+        except Exception as e:
+            print(e)
 
 
 
