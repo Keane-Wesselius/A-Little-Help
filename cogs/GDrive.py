@@ -46,6 +46,15 @@ class GDrive(commands.Cog):
             url = self.google.createSheet()
             await ctx.send(url)
 
+    @commands.command()
+    async def get_doc(self, ctx, *args):
+        if (args):
+            args = " ".join(args)
+            url = self.google.getDoc(args)
+            await ctx.send(url)
+        else:
+            await ctx.send("You need to specify a filename to get")
+
 
 
 

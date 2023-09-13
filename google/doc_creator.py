@@ -96,10 +96,4 @@ class Doc_Creator:
         else:
             for file in files:
                 return f"Found your file! {file.get('webViewLink')}"
-        
-
-
-d = Doc_Creator()
-
-d.createDoc("test123")
-d.getDoc("test123")
+    
