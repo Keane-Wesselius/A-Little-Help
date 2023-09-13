@@ -47,7 +47,7 @@ class GDrive(commands.Cog):
             await ctx.send(url)
 
     @commands.command()
-    async def get_doc(self, ctx, *args):
+    async def getFile(self, ctx, *args):
         if (args):
             args = " ".join(args)
             url = self.google.getDoc(args)

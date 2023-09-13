@@ -86,7 +86,7 @@ class Doc_Creator:
         if doc_title == None:
             return "You need to specify a document title"
         try:
-            results = self.drive_service.files().list(q = f"name = '{doc_title}'").execute()
+            results = self.drive_service.files().list(q = f"name = '{doc_title}'", fields='webViewLink').execute()
             files = results.get("files", [])
         except Exception:
             return "Error finding your file"
@@ -95,5 +95,5 @@ class Doc_Creator:
             return "File does not exist"
         else:
             for file in files:
-                return f"Found your file! {file.get('webViewLink')}"
+                return f"Found your file! {file.get('name')} {file.get('webViewLink')}"
     
