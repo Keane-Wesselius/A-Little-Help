@@ -88,8 +88,8 @@ class Doc_Creator:
         try:
             results = self.drive_service.files().list(q = f"name = '{doc_title}'", fields='webViewLink').execute()
             files = results.get("files", [])
-        except Exception:
-            return f"Error finding your file: {Exception}"
+        except Exception as e:
+            return f"Error finding your file: {e}"
         
         if not files:
             return "File does not exist"
