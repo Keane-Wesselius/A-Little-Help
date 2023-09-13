@@ -22,9 +22,9 @@ class Doc_Creator:
         )
 
         #Sets the version of the api service we are using and gets the actual services so we can use them
+        self.drive_service = build("drive", "v3", credentials=creds)
         self.docs_service = build("docs", "v1", credentials=creds)
         self.slides_service = build("slides", "v1", credentials=creds)
-        self.drive_service = build("drive", "v3", credentials=creds)
         self.sheets_service = build("sheets", "v4", credentials=creds)
 
 
@@ -80,6 +80,26 @@ class Doc_Creator:
                 raise HttpError
         except Exception:
             return "Error: File Creation Unsuccesful, Try Again"
+        
+
+    def getDoc(self, doc_title=None):
+        if doc_title == None:
+            return "You need to specify a document title"
+        try:
+            results = self.drive_service.files().list(q = f"name = '{doc_title}'").execute()
+            files = results.get("files", [])
+        except Exception:
+            return "Error finding your file"
+        
+        if not files:
+            return "File does not exist"
+        else:
+            for file in files:
+                return f"Found your file! {file.get('webViewLink')}"
+        
 
 
+d = Doc_Creator()
 
+d.createDoc("test123")
+d.getDoc("test123")
