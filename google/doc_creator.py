@@ -97,9 +97,7 @@ class Doc_Creator:
         if not files:
             return "File does not exist"
         else:
-            file = files[0]
-            results = self.drive_service.files().list(q = f"id =  {file.get('id')}").execute()
-            files = results.get("files", [])
-
-            return f"Found your file! \n {file}"
+            for file in files:
+                result = self.drive_service.files().get(fileId = file.get("id")).execute()
+                return f"Found your file! \n {result}"
    
