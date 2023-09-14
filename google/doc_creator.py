@@ -94,10 +94,16 @@ class Doc_Creator:
         except Exception as e:
             return f"Error finding your file: {e}"
         
+
         if not files:
             return "File does not exist"
+        elif len(files) == 1:
+            file = files[0]
+            result = self.drive_service.files().get(fileId = file.get("id"), fields='webViewLink').execute()
+            return f"Found your file! {result}"
         else:
+            allFiles = "Found multiple files:\n"
             for file in files:
                 result = self.drive_service.files().get(fileId = file.get("id"), fields='webViewLink').execute()
-                return f"Found your file! {result}"
+                allFiles += f"\n{result.get('webViewLink')}"
    
