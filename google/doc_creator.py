@@ -98,6 +98,6 @@ class Doc_Creator:
             return "File does not exist"
         else:
             for file in files:
-                result = self.drive_service.files().get(fileId = file.get("id")).execute()
-                return f"Found your file! \n {result}"
+                result = self.drive_service.files().get(fileId = file.get("id"), fields='webViewLink').execute()
+                return f"Found your file! {result}"
    
