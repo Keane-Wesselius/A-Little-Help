@@ -106,4 +106,5 @@ class Doc_Creator:
             for file in files:
                 result = self.drive_service.files().get(fileId = file.get("id"), fields='webViewLink').execute()
                 allFiles += f"\n{result.get('webViewLink')}"
+            return allFiles
    
