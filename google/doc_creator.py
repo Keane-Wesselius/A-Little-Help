@@ -42,11 +42,10 @@ class Doc_Creator:
                 'parents': [folder_id],
             }
 
-            created_document = self.drive_service.files().create(body=document_metadata).execute()
+            created_document = self.drive_service.files().create(body=document_metadata, fields='id,webViewLink').execute()
             # Get the ID of the newly created document
             document_id = created_document.get('id')
             
-            return created_document
             # Get the webViewLink
             webViewLink = created_document.get('webViewLink')
 
