@@ -36,7 +36,6 @@ class Doc_Creator:
     def createDoc(self, folder_name, doc_title=None):
         try:
             folder_id = self.getOrCreateFolder(folder_name)
-            return "heelo"
             document_metadata = {
                 'name': doc_title,
                 'mimeType': 'application/vnd.google-apps.document',
