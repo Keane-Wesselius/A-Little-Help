@@ -33,25 +33,62 @@ class Doc_Creator:
 
 
     # Create a new Google Docs document
-    def createDoc(self, doc_title=None):
-        if doc_title == None:
-            doc_title = "A Little Help"
+    def createDoc(self, folder_name, doc_title=None):
         try:
-            doc = self.docs_service.documents().create(body={"title": doc_title}).execute()
-            if doc:
-                doc_id = doc["documentId"]
-                permission = {"type": "anyone", "role": "writer", "withLink": True}
-                self.drive_service.permissions().create(fileId=doc_id, body=permission).execute()
-                file_url = f"Document URL: https://docs.google.com/document/d/{doc_id}"
-                return file_url
-            else:
-                raise HttpError
-        except Exception:
-            return "Error: File Creation Unsuccesful, Try Again"
+            folder_id = self.getOrCreateFolder(folder_name)
+
+            document_metadata = {
+                'name': doc_title,
+                'mimeType': 'application/vnd.google-apps.document',
+                'parents': [folder_id],
+            }
+
+            created_document = self.drive_service.files().create(body=document_metadata).execute()
+
+            # Get the ID of the newly created document
+            document_id = created_document['id']
+            
+            # Get the webViewLink
+            webViewLink = created_document['webViewLink']
+
+            # Update the permissions to allow anyone with the link to edit
+            self.drive_service.permissions().create(
+                fileId=document_id,
+                body={
+                    'type': 'anyone',
+                    'role': 'writer',
+                }
+            ).execute()
+
+            return webViewLink
+    
+        except Exception as e:
+            return f"Error creating your file: {e}"
+
+
+
+
+        # if doc_title == None:
+        #     doc_title = "A Little Help"
+        # try:
+        #     doc = self.docs_service.documents().create(body={"title": doc_title}).execute()
+        #     if doc:
+        #         doc_id = doc["documentId"]
+        #         permission = {"type": "anyone", "role": "writer", "withLink": True}
+        #         self.drive_service.permissions().create(fileId=doc_id, body=permission).execute()
+        #         file_url = f"Document URL: https://docs.google.com/document/d/{doc_id}"
+        #         return file_url
+        #     else:
+        #         raise HttpError
+        # except Exception:
+        #     return "Error: File Creation Unsuccesful, Try Again"
 
         
 
-    def createSlide(self, slide_title=None):
+
+
+
+    def createSlide(self, folder_name, slide_title=None):
         if slide_title == None:
             slide_title = "A Little Help"
         try:
@@ -68,7 +105,7 @@ class Doc_Creator:
             return "Error: File Creation Unsuccesful, Try Again"
 
 
-    def createSheet(self, sheet_title=None):
+    def createSheet(self, folder_name,  sheet_title=None):
         if sheet_title == None:
             sheet_title = "A Little Help"
         try:
@@ -85,26 +122,53 @@ class Doc_Creator:
             return "Error: File Creation Unsuccesful, Try Again"
         
 
-    def getDoc(self, doc_title=None):
-        if doc_title == None:
-            return "You need to specify a document title"
+
+
+
+
+
+    def getDoc(self, folder_name, doc_title=None):
         try:
-            results = self.drive_service.files().list(q = f"name = '{doc_title}'").execute()
+            if doc_title == None:
+                return "You need to specify a document title"
+            
+        
+            folder_id = self.getOrCreateFolder(folder_name)
+            results = self.drive_service.files().list(q = f"name = '{doc_title}' and {folder_id} in parents").execute()
             files = results.get("files", [])
+            
+
+            if not files:
+                return "Could not find your file. For security purposes files created in a server are only accessible in that server.\n Make sure you spelt the filename correctly and you are in the server the file was created on."
+            elif len(files) == 1:
+                file = files[0]
+                result = self.drive_service.files().get(fileId = file.get("id"), fields='webViewLink').execute()
+                return f"Found your file! {result}"
+            else:
+                allFiles = "Found multiple files:\n"
+                for file in files:
+                    result = self.drive_service.files().get(fileId = file.get("id"), fields='webViewLink').execute()
+                    allFiles += f"\n\n\n{result.get('webViewLink')}"
+                return allFiles
+   
         except Exception as e:
             return f"Error finding your file: {e}"
-        
 
-        if not files:
-            return "File does not exist"
-        elif len(files) == 1:
-            file = files[0]
-            result = self.drive_service.files().get(fileId = file.get("id"), fields='webViewLink').execute()
-            return f"Found your file! {result}"
+
+
+
+
+    def getOrCreateFolder(self, folder_name):
+        results = self.drive_service.files().list(q= f"mimeType='application/vnd.google-apps.folder' and name={folder_name}").execute()
+        folders = results.get('files', [])
+
+        if folders:
+            return folders[0]['id']
         else:
-            allFiles = "Found multiple files:\n"
-            for file in files:
-                result = self.drive_service.files().get(fileId = file.get("id"), fields='webViewLink').execute()
-                allFiles += f"\n{result.get('webViewLink')}"
-            return allFiles
-   
+            folder_metadata = {
+            'name': folder_name,
+            'mimeType': 'application/vnd.google-apps.folder'
+            }
+
+            folder = self.drive_service.files().create(body=folder_metadata, fields='id').execute()
+            return folder['id']

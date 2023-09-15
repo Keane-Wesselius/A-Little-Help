@@ -18,10 +18,10 @@ class GDrive(commands.Cog):
     async def createDoc(self, ctx, *args):
         if (args):
             args = " ".join(args)
-            url = self.google.createDoc(args)
+            url = self.google.createDoc(ctx.guild.name, args)
             await ctx.send(url)
         else:
-            url = self.google.createDoc()
+            url = self.google.createDoc(ctx.guild.name)
             await ctx.send(url)
 
     #Creates a google slide file and shares the link, if no filename is given a default one is picked
@@ -29,10 +29,10 @@ class GDrive(commands.Cog):
     async def createSlide(self, ctx, *args):
         if (args):
             args = " ".join(args)
-            url = self.google.createSlide(args)
+            url = self.google.createSlide(ctx.guild.name, args)
             await ctx.send(url)
         else:
-            url = self.google.createSlide()
+            url = self.google.createSlide(ctx.guild.name)
             await ctx.send(url)
 
     #Creates a google sheet file and shares the link, if no filename is given a default one is picked
@@ -40,17 +40,17 @@ class GDrive(commands.Cog):
     async def createSheet(self, ctx, *args):
         if (args):
             args = " ".join(args)
-            url = self.google.createSheet(args)
+            url = self.google.createSheet(ctx.guild.name, args)
             await ctx.send(url)
         else:
-            url = self.google.createSheet()
+            url = self.google.createSheet(ctx.guild.name)
             await ctx.send(url)
 
     @commands.command()
     async def getFile(self, ctx, *args):
         if (args):
             args = " ".join(args)
-            url = self.google.getDoc(args)
+            url = self.google.getDoc(ctx.guild.name, args)
             await ctx.send(url)
         else:
             await ctx.send("You need to specify a filename to get")
