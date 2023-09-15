@@ -44,7 +44,7 @@ class Doc_Creator:
             }
 
             created_document = self.drive_service.files().create(body=document_metadata).execute()
-
+            return created_document
             # Get the ID of the newly created document
             document_id = created_document['id']
             
