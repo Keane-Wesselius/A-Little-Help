@@ -158,7 +158,7 @@ class Doc_Creator:
 
 
     def getOrCreateFolder(self, folder_name):
-        results = self.drive_service.files().list(q= f"mimeType='application/vnd.google-apps.folder' and name={folder_name}").execute()
+        results = self.drive_service.files().list(q= f"mimeType='application/vnd.google-apps.folder' and name='{folder_name}'").execute()
         folders = results.get('files', [])
 
         if folders:
