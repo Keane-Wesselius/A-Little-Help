@@ -162,7 +162,7 @@ class Doc_Creator:
         folders = results.get('files', [])
 
         if folders:
-            return folders[0]['id']
+            return folders[0].get('id')
         else:
             folder_metadata = {
             'name': folder_name,
@@ -170,4 +170,4 @@ class Doc_Creator:
             }
 
             folder = self.drive_service.files().create(body=folder_metadata, fields='id').execute()
-            return folder['id']
+            return folder.get("id")
