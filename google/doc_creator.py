@@ -132,7 +132,7 @@ class Doc_Creator:
             
         
             folder_id = self.getOrCreateFolder(folder_name)
-            results = self.drive_service.files().list(q = f"name = '{doc_title}' and {folder_id} in parents").execute()
+            results = self.drive_service.files().list(q = f"name = '{doc_title}' and '{folder_id}' in parents").execute()
             files = results.get("files", [])
             
 
