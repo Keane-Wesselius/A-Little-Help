@@ -143,10 +143,10 @@ class Doc_Creator:
                 result = self.drive_service.files().get(fileId = file.get("id"), fields='webViewLink').execute()
                 return f"Found your file! {result}"
             else:
-                allFiles = "Found multiple files:\n"
+                allFiles = "Found multiple files:"
                 for file in files:
                     result = self.drive_service.files().get(fileId = file.get("id"), fields='webViewLink').execute()
-                    allFiles += f"\n\n\n{result.get('webViewLink')}"
+                    allFiles += f"\n\n{result.get('webViewLink')}"
                 return allFiles
    
         except Exception as e:
