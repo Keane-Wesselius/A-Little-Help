@@ -44,10 +44,11 @@ class Doc_Creator:
 
             created_document = self.drive_service.files().create(body=document_metadata).execute()
             # Get the ID of the newly created document
-            document_id = created_document['id']
+            document_id = created_document.get('id')
             
+            return created_document
             # Get the webViewLink
-            webViewLink = created_document['webViewLink']
+            webViewLink = created_document.get('webViewLink')
 
             # Update the permissions to allow anyone with the link to edit
             self.drive_service.permissions().create(
