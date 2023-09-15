@@ -36,7 +36,7 @@ class Doc_Creator:
     def createDoc(self, folder_name, doc_title=None):
         try:
             folder_id = self.getOrCreateFolder(folder_name)
-
+            return "heelo"
             document_metadata = {
                 'name': doc_title,
                 'mimeType': 'application/vnd.google-apps.document',
@@ -44,7 +44,6 @@ class Doc_Creator:
             }
 
             created_document = self.drive_service.files().create(body=document_metadata).execute()
-            return created_document
             # Get the ID of the newly created document
             document_id = created_document['id']
             
