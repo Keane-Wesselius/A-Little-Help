@@ -1,4 +1,5 @@
 from discord.ext import commands
+from discord import app_commands
 
 #Cog for the miscelanous commands for the bot that dont really have their own place
 class Misc(commands.Cog):
