@@ -23,6 +23,7 @@ intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
 bot = commands.Bot(command_prefix = '!', intents = intents)
+tree = discord.app_commands.CommandTree(bot)
 
 
 
@@ -45,6 +46,8 @@ async def on_ready():
     for extension in EXTENSIONS:
         await bot.load_extension(extension)
 
+    await tree.sync()
+    
     #This print statement is for the developer to know when the bot is ready to be used
     print(f'{bot.user} is connected to the following guild')
     print(f'Guild Name: {guild.name}')
@@ -92,6 +95,8 @@ async def on_message(message):
 
     
     await bot.process_commands(message)
+
+
 
 
 
