@@ -24,10 +24,11 @@ class Misc(commands.Cog):
     async def addBot(self, ctx):
         await ctx.send(self.BOT_LINK)
 
+
     @app_commands.command(name="test", description="I hope this works")
     @app_commands.describe(word="The word you want me to say")
     @app_commands.rename(member='whatever_you_want')
-    async def test(self, interaction, word):
+    async def test(self, interaction, word: str):
         await interaction.response.send_message(f'you typed {word}')
 
 
