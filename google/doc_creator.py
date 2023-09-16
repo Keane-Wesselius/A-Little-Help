@@ -225,7 +225,7 @@ class Doc_Creator:
             elif len(files) == 1:
                 file = files[0]
                 result = self.drive_service.files().get(fileId = file.get("id"), fields='webViewLink').execute()
-                return f"Found your file! {result}"
+                return f"Found your file! {result.get('webViewLink')}"
             
             #Multiply files were found
             else:

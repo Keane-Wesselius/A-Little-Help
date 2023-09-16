@@ -104,4 +104,11 @@ async def on_message(message):
 
 
 #Starts the bot
-bot.run(TOKEN)
+if __name__ == '__main__':
+    while True:
+        try:
+            bot.run(TOKEN)
+        except ConnectionClosed:
+            pass
+
+
