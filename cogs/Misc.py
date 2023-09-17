@@ -27,7 +27,7 @@ class Misc(commands.Cog):
 
     @app_commands.command(name="test", description="I hope this works")
     @app_commands.describe(word="The word you want me to say")
-    @app_commands.rename(member='whatever_you_want')
+    @app_commands.rename(word='whatever_you_want')
     async def test(self, interaction, word: str):
         await interaction.response.send_message(f'you typed {word}')
 
