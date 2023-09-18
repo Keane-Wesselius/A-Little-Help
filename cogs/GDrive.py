@@ -17,7 +17,7 @@ class GDrive(commands.Cog):
     #Creates a google doc file and shares the link, if no filename is given a default one is picked
     @app_commands.command(name="create_doc", description="Creates a new Google Doc and returns a link")
     @app_commands.describe(file_name="The name of the file you are creating")
-    async def createDoc(self, interaction, file_name:str):
+    async def create_doc(self, interaction, file_name:str):
         url = self.google.createDoc(interaction.guild, file_name)
         await interaction.response.send_message(url)
 
