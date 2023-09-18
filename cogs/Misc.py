@@ -32,7 +32,7 @@ class Misc(commands.Cog):
     app_commands.Choice(name='Tuesday', value=24)
 ])
     async def test(self, interaction, day: app_commands.Choice[int]):
-        await interaction.response.send_message(day.value)
+        await interaction.response.send_message(interaction.guild)
 
 
 async def setup(bot):
