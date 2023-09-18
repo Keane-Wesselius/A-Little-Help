@@ -9,7 +9,8 @@ class Misc(commands.Cog):
         self.BOT_LINK = open("/home/pi/Python/A-Little-Help/botAccessLink.txt", "r").readline()
 
     #Get the ping of the bot
-    @app_commands.command(name='Ping', description="Get bot's latenecy")
+    #SLASH COMMAND NAMES MUST BE ALL LOWERCASE
+    @app_commands.command(name='ping', description="Get bot's latenecy")
     async def ping(self, interaction):
         await interaction.response.send_message(f' Pong! {round(self.bot.latency * 1000)}ms')
 
