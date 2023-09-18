@@ -2,6 +2,7 @@ import google.auth
 from google.oauth2.service_account import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
+from discord import app_commands
 
 
 #This class leverages the google drive api to create google docs, slides, and sheets as well as be able to retrieve the documents created
@@ -50,14 +51,14 @@ class Doc_Creator:
         #doc_title: The name of the document you are trying to create
     #Returns:
         #The webViewLink of the newly created document
-    def createDoc(self, folder_name, doc_title=None):
+    def createDoc(self, interaction, doc_title=None):
         if doc_title == None:
             doc_title = "default"
 
 
         try:
             #Gets the folder id to put the file in
-            folder_id = self.getOrCreateFolder(folder_name)
+            folder_id = self.getOrCreateFolder(interaction.guild)
 
             #Set the metadata for the file
             #mimeType is the kind of file it is
@@ -86,10 +87,10 @@ class Doc_Creator:
                 }
             ).execute()
 
-            return webViewLink
+            interaction.followup.send(webViewLink)
     
         except Exception as e:
-            return f"Error creating your file: {e}"
+            interaction.followup.send(f"Error creating your file: {e}")
 
         
 
