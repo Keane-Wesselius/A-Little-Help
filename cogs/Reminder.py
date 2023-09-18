@@ -4,7 +4,7 @@ import threading
 import asyncio
 import time
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 
 class Reminder(commands.Cog):
 
@@ -17,10 +17,10 @@ class Reminder(commands.Cog):
         self.re_alpha =  r'^[a-zA-Z]+$'
         #example = '06-25-2023 13:00:00'
 
-    def timer(self, ctx, timeup, message):
+    def timer(self, interaction, timeup, message):
         while True:
             if time.time() >= timeup:
-                asyncio.run_coroutine_threadsafe(ctx.send("@everyone " + message), self.bot.loop)
+                asyncio.run_coroutine_threadsafe(interaction.response.send_message("@everyone " + message), self.bot.loop)
                 return
 
     # def timerAsyncWrapper(self, ctx, timeup, message):
@@ -63,37 +63,53 @@ class Reminder(commands.Cog):
 
 
 
-    @commands.command()
-    async def reminder(self, ctx, date=None, time=None, *args):
-        message = "Reminder"
-        date_string = ""
+    # @commands.command()
+    # async def reminder(self, ctx, date=None, time=None, *args):
+    #     message = "Reminder"
+    #     date_string = ""
 
-        if args != None:
-            message = " ".join(args)
+    #     if args != None:
+    #         message = " ".join(args)
 
-        # if date == None:
-        #     await ctx.send("Date not specified")
-        #     return
-        # if time == None:
-        #     await ctx.send("Time not specified")
-        #     return
-        # if (args):
-        #     message = " ".join(args)
+    #     # if date == None:
+    #     #     await ctx.send("Date not specified")
+    #     #     return
+    #     # if time == None:
+    #     #     await ctx.send("Time not specified")
+    #     #     return
+    #     # if (args):
+    #     #     message = " ".join(args)
         
-        date_string = self.convertInputToDateString(date, time)
+    #     date_string = self.convertInputToDateString(date, time)
 
             
-        try:
-            timestamp = self.convertToTimestamp(date_string)
-        except Exception as e:
-            await ctx.send("Invalid date or time must be in the form M-D-Y H:M:S" + " " + str(e))
-            return
+    #     try:
+    #         timestamp = self.convertToTimestamp(date_string)
+    #     except Exception as e:
+    #         await ctx.send("Invalid date or time must be in the form M-D-Y H:M:S" + " " + str(e))
+    #         return
         
-        thread = threading.Thread(target=self.timer, args=(ctx, timestamp, message,))
+    #     thread = threading.Thread(target=self.timer, args=(ctx, timestamp, message,))
+    #     thread.start()
+    #     await ctx.send("Reminder Created!")
+
+
+    @app_commands.command(name="reminder", description="Sets a reminder for a given time")
+    @app_commands.choices(time_unit=[
+    app_commands.Choice(name='Minutes', value=1),
+    app_commands.Choice(name='Hours', value=60),
+    app_commands.Choice(name='Days', value=1440)
+    ])
+    async def reminder(self, interaction, message: str, time_unit: app_commands.Choice[int], how_many: int ):
+        current_datetime = datetime.now()
+        num_minutes = how_many * time_unit.value
+
+        timer_time = current_datetime + timedelta(minutes=num_minutes)
+        timer_timestamp = timer_time.timestamp()
+
+        thread = threading.Thread(target=self.timer, args=(interaction, timer_timestamp, message,))
         thread.start()
-        await ctx.send("Reminder Created!")
-
-
+        await interaction.response.send_message("Reminder Created!")
 
 
 
