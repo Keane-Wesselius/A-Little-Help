@@ -23,19 +23,6 @@ class Reminder(commands.Cog):
                 asyncio.run_coroutine_threadsafe(interaction.followup.send("@everyone " + message), self.bot.loop)
                 return
 
-    # def timerAsyncWrapper(self, ctx, timeup, message):
-    #     loop = asyncio.new_event_loop()
-    #     asyncio.set_event_loop(loop)
-    #     future = asyncio.ensure_future(self.timer(ctx, timeup, message)) # tasks to do
-    #     loop.run_until_complete(future)
-
-    #     #asyncio.get_event_loop().create_task(timer(ctx, timeup, message))
-
-    # def startReminder(self, ctx, timestamp, timer_message):
-
-    #     t = threading.Thread(target=self.timerAsyncWrapper, args=(ctx, timestamp, timer_message,))
-    #     t.start()
-
 
     def convertToTimestamp(self, date_string):
         #Turn date and time string into a datetime object
@@ -94,13 +81,13 @@ class Reminder(commands.Cog):
     #     await ctx.send("Reminder Created!")
 
 
-    @app_commands.command(name="reminder", description="Sets a reminder for a given time")
+    @app_commands.command(name="reminder", description="Sets a reminder")
     @app_commands.choices(time_unit=[
     app_commands.Choice(name='Minutes', value=1),
     app_commands.Choice(name='Hours', value=60),
     app_commands.Choice(name='Days', value=1440)
     ])
-    async def reminder(self, interaction, message: str, time_unit: app_commands.Choice[int], how_many: int ):
+    async def reminder(self, interaction, message:str, time_unit:app_commands.Choice[int], how_many:int):
         current_datetime = datetime.now()
         num_minutes = how_many * time_unit.value
 
@@ -111,6 +98,16 @@ class Reminder(commands.Cog):
         thread.start()
         await interaction.response.send_message("Reminder Created!")
 
+    @app_commands.command(name="complex_reminder", description="Sets a reminder with fine tuning of the time")
+    async def complex_reminder(self, interaction, message:str, days:int, hours:int, minutes:int):
+        current_datetime = datetime.now()
+
+        timer_time = current_datetime + timedelta(days=days, hours=hours, minutes=minutes)
+        timer_timestamp = timer_time.timestamp()
+
+        thread = threading.Thread(target=self.timer, args=(interaction, timer_timestamp, message,))
+        thread.start()
+        await interaction.response.send_message("Reminder Created!")
 
 
 
