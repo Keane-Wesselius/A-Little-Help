@@ -20,7 +20,7 @@ class Reminder(commands.Cog):
     def timer(self, interaction, timeup, message):
         while True:
             if time.time() >= timeup:
-                asyncio.run_coroutine_threadsafe(interaction.response.send_message("@everyone " + message), self.bot.loop)
+                asyncio.run_coroutine_threadsafe(interaction.followup.send("@everyone " + message), self.bot.loop)
                 return
 
     # def timerAsyncWrapper(self, ctx, timeup, message):
