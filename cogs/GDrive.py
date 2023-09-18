@@ -16,14 +16,11 @@ class GDrive(commands.Cog):
 
     #Creates a google doc file and shares the link, if no filename is given a default one is picked
     @commands.command()
-    async def createDoc(self, ctx, *args):
-        if (args):
-            args = " ".join(args)
-            url = self.google.createDoc(ctx.guild.name, args)
-            await ctx.send(url)
-        else:
-            url = self.google.createDoc(ctx.guild.name)
-            await ctx.send(url)
+    @app_commands.command(name="createDoc", description="Creates a new Google Doc and returns a link")
+    @app_commands.describe(file_name="The name of the file you are creating")
+    async def createDoc(self, interaction, file_name:str):
+        url = self.google.createDoc(interaction.guild, file_name)
+        await interaction.response.send_message(url)
 
     #Creates a google slide file and shares the link, if no filename is given a default one is picked
     @commands.command()

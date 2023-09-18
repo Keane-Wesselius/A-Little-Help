@@ -45,48 +45,37 @@ class Reminder(commands.Cog):
             current_time = current_time.strftime('%H:%M:%S')
             date_string = date + " " + current_time
             return date_string
+
+    @commands.command()
+    async def reminder(self, ctx, date=None, time=None, *args):
+        message = "Reminder"
+        date_string = ""
+
+        if args != None:
+            message = " ".join(args)
         
-            
-
-
-
-    # @commands.command()
-    # async def reminder(self, ctx, date=None, time=None, *args):
-    #     message = "Reminder"
-    #     date_string = ""
-
-    #     if args != None:
-    #         message = " ".join(args)
-
-    #     # if date == None:
-    #     #     await ctx.send("Date not specified")
-    #     #     return
-    #     # if time == None:
-    #     #     await ctx.send("Time not specified")
-    #     #     return
-    #     # if (args):
-    #     #     message = " ".join(args)
-        
-    #     date_string = self.convertInputToDateString(date, time)
+        date_string = self.convertInputToDateString(date, time)
 
             
-    #     try:
-    #         timestamp = self.convertToTimestamp(date_string)
-    #     except Exception as e:
-    #         await ctx.send("Invalid date or time must be in the form M-D-Y H:M:S" + " " + str(e))
-    #         return
+        try:
+            timestamp = self.convertToTimestamp(date_string)
+        except Exception as e:
+            await ctx.send("Invalid date or time must be in the form M-D-Y H:M:S" + " " + str(e))
+            return
         
-    #     thread = threading.Thread(target=self.timer, args=(ctx, timestamp, message,))
-    #     thread.start()
-    #     await ctx.send("Reminder Created!")
+        thread = threading.Thread(target=self.timer, args=(ctx, timestamp, message,))
+        thread.start()
+        await ctx.send("Reminder Created!")
 
 
     @app_commands.command(name="reminder", description="Sets a reminder")
     @app_commands.choices(time_unit=[
     app_commands.Choice(name='Minutes', value=1),
     app_commands.Choice(name='Hours', value=60),
-    app_commands.Choice(name='Days', value=1440)
-    ])
+    app_commands.Choice(name='Days', value=1440)])
+    @app_commands.describe(message="What do you want the reminder to say?")
+    @app_commands.describe(time_unit="The type of time unit")
+    @app_commands.describe(how_many="The number of time_units from now to set the reminder")
     async def reminder(self, interaction, message:str, time_unit:app_commands.Choice[int], how_many:int):
         current_datetime = datetime.now()
         num_minutes = how_many * time_unit.value
@@ -98,8 +87,14 @@ class Reminder(commands.Cog):
         thread.start()
         await interaction.response.send_message("Reminder Created!")
 
-    @app_commands.command(name="complex_reminder", description="Sets a reminder with fine tuning of the time")
-    async def complex_reminder(self, interaction, message:str, days:int, hours:int, minutes:int):
+
+
+    @app_commands.command(name="reminder_complex", description="Sets a reminder with fine tuning of the time")
+    @app_commands.describe(message="What do you want the reminder to say?")
+    @app_commands.describe(days="The number of days from now to set the reminder")
+    @app_commands.describe(hours="The number of hours from now to set the reminder")
+    @app_commands.describe(minutes="The number of minutes from now to set the reminder")
+    async def reminder_complex(self, interaction, message:str, days:int, hours:int, minutes:int):
         current_datetime = datetime.now()
 
         timer_time = current_datetime + timedelta(days=days, hours=hours, minutes=minutes)
