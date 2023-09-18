@@ -43,9 +43,11 @@ async def on_ready():
         if guild.name == GUILD:
             break    
 
+    #loads the cogs, just the other bot commands in other files
     for extension in EXTENSIONS:
         await bot.load_extension(extension)
 
+    #updates slash commands
     await bot.tree.sync()
 
     #This print statement is for the developer to know when the bot is ready to be used
@@ -74,7 +76,7 @@ async def on_message(message):
         await message.add_reaction("\N{Chicken}")
     
 
-    userFilePath = "/home/pi/Python/A-Little-Help/Users/" + str(message.author.id) + ".txt"
+    userFilePath = "/home/pi/Python/A-Little-Help/users/" + str(message.author.id) + ".txt"
     try:
         if not os.path.exists(userFilePath):
             file = open(userFilePath, "w")

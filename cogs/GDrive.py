@@ -1,4 +1,5 @@
 from discord.ext import commands
+from discord import app_commands
 import sys
 sys.path.append('..')
 import google.doc_creator as doc_creator

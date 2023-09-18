@@ -9,27 +9,29 @@ class Misc(commands.Cog):
         self.BOT_LINK = open("/home/pi/Python/A-Little-Help/botAccessLink.txt", "r").readline()
 
     #Get the ping of the bot
-    @commands.command()
-    async def ping(self, ctx):
-        await ctx.send(f' Pong! {round(self.bot.latency * 1000)}ms')
+    @app_commands.command(name='Ping', description="Get bot's latenecy")
+    async def ping(self, interaction):
+        await interaction.response.send_message(f' Pong! {round(self.bot.latency * 1000)}ms')
 
     #Prints some info about the bot, the user who asked, and the guild
     @commands.command()
-    #@commands.is_owner()
     async def info(self, ctx):
         await ctx.send(f'Bot Info = {self.bot.user} \nUser ID = {ctx.author}\nGuild Name = {ctx.guild} \nGuild ID = {ctx.guild.id}\nUse !help for help with commands')
 
     #Provides a link that allows you to add the bot to another server
     @commands.command()
+    @commands.is_owner()
     async def addBot(self, ctx):
         await ctx.send(self.BOT_LINK)
 
 
     @app_commands.command(name="test", description="I hope this works")
-    @app_commands.describe(word="The word you want me to say")
-    @app_commands.rename(word='whatever_you_want')
-    async def test(self, interaction, word: str):
-        await interaction.response.send_message(f'you typed {word}')
+    @app_commands.choices(day=[
+    app_commands.Choice(name='Monday', value=1),
+    app_commands.Choice(name='Tuesday', value=2)
+])
+    async def test(self, interaction, day: app_commands.Choice[int]):
+        await interaction.response.send_message(day.name)
 
 
 async def setup(bot):

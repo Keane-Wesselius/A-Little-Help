@@ -1,4 +1,5 @@
 from discord.ext import commands
+from discord import app_commands
 
 #This cog contains functions that allow the bot to do basic arithmetic
 class Math(commands.Cog):
