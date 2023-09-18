@@ -51,7 +51,7 @@ class Doc_Creator:
         #doc_title: The name of the document you are trying to create
     #Returns:
         #The webViewLink of the newly created document
-    def createDoc(self, interaction, doc_title=None):
+    async def createDoc(self, interaction, doc_title=None):
         if doc_title == None:
             doc_title = "default"
 
@@ -87,10 +87,10 @@ class Doc_Creator:
                 }
             ).execute()
 
-            interaction.followup.send(webViewLink)
+            await interaction.followup.send(webViewLink)
     
         except Exception as e:
-            interaction.followup.send(f"Error creating your file: {e}")
+            await interaction.followup.send(f"Error creating your file: {e}")
 
         
 
