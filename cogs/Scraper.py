@@ -11,6 +11,7 @@ class Scraper(commands.Cog):
 
     @app_commands.command(name="youtube", description="Finds a Youtube video based on your search query")
     @app_commands.describe(search="Youtube video to search for")
+    @app_commands.rename(search="Query")
     async def youtube(self, interaction, search: str):
         url = scraper.getYoutubeVideo(search)
         if url:

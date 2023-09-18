@@ -102,11 +102,6 @@ async def on_message(message):
 
 
 
-    
-
-
-    
-
 
 
 
@@ -119,3 +114,8 @@ if __name__ == '__main__':
             pass
 
 
+
+
+#Notes
+#SLASH COMMAND NAMES MUST BE ALL LOWERCASE
+#SLASH COMMANDS WILL NOT SYNC AND UPDATE IF THERE IS AN ERROR WITH A SLASH COMMAND
