@@ -18,39 +18,30 @@ class GDrive(commands.Cog):
     @app_commands.command(name="create_doc", description="Creates a new Google Doc and returns a link")
     @app_commands.describe(file_name="The name of the file you are creating")
     async def create_doc(self, interaction, file_name:str):
-        await interaction.response.send_message("Please wait while I create that for you")
+        await interaction.response.send_message("Please wait while I create that Doc for you")
         await self.google.createDoc(interaction, file_name)
 
     #Creates a google slide file and shares the link, if no filename is given a default one is picked
-    @commands.command()
-    async def createSlide(self, ctx, *args):
-        if (args):
-            args = " ".join(args)
-            url = self.google.createSlide(ctx.guild.name, args)
-            await ctx.send(url)
-        else:
-            url = self.google.createSlide(ctx.guild.name)
-            await ctx.send(url)
+    @app_commands.command(name="create_slide", description="Creates a new Google Slide and returns a link")
+    @app_commands.describe(file_name="The name of the file you are creating")
+    async def create_slide(self, interaction, file_name:str):
+        await interaction.response.send_message("Please wait while I create that Slide for you")
+        await self.google.createSlide(interaction, file_name)
 
     #Creates a google sheet file and shares the link, if no filename is given a default one is picked
-    @commands.command()
-    async def createSheet(self, ctx, *args):
-        if (args):
-            args = " ".join(args)
-            url = self.google.createSheet(ctx.guild.name, args)
-            await ctx.send(url)
-        else:
-            url = self.google.createSheet(ctx.guild.name)
-            await ctx.send(url)
+    @app_commands.command(name="create_sheet", description="Creates a new Google Sheet and returns a link")
+    @app_commands.describe(file_name="The name of the file you are creating")
+    async def create_sheet(self, interaction, file_name:str):
+        await interaction.response.send_message("Please wait while I create that Sheet for you")
+        await self.google.createSheet(interaction, file_name)
 
-    @commands.command()
-    async def getFile(self, ctx, *args):
-        if (args):
-            args = " ".join(args)
-            url = self.google.getDoc(ctx.guild.name, args)
-            await ctx.send(url)
-        else:
-            await ctx.send("You need to specify a filename to get")
+
+    @app_commands.command(name="get_file", description="Returns a link to a previously created Google document")
+    @app_commands.describe(file_name="The name of the file you are looking for")
+    async def get_file(self, interaction, file_name:str):
+        await interaction.response.send_message("Please wait while I find that file for you")
+        await self.google.getDoc(interaction, file_name)
+
 
 
 
