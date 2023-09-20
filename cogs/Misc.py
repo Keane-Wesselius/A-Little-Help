@@ -8,12 +8,6 @@ class Misc(commands.Cog):
         self.bot = bot
         self.BOT_LINK = open("/home/pi/Python/A-Little-Help/botAccessLink.txt", "r").readline()
 
-    #Get the ping of the bot
-    
-    @app_commands.command(name='ping', description="Get bot's latenecy")
-    async def ping(self, interaction):
-        await interaction.response.send_message(f' Pong! {round(self.bot.latency * 1000)}ms')
-
     #Prints some info about the bot, the user who asked, and the guild
     @commands.command()
     async def info(self, ctx):
@@ -24,6 +18,13 @@ class Misc(commands.Cog):
     @commands.is_owner()
     async def addBot(self, ctx):
         await ctx.send(self.BOT_LINK)
+    
+    
+    #Get the ping of the bot
+    @app_commands.command(name='ping', description="Get bot's latenecy")
+    async def ping(self, interaction):
+        await interaction.response.send_message(f' Pong! {round(self.bot.latency * 1000)}ms')
+
 
 
     @app_commands.command(name="test", description="I hope this works")

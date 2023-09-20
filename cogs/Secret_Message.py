@@ -1,4 +1,5 @@
 from discord.ext import commands
+from discord import app_commands
 
 class Secret_Message(commands.Cog):
 
@@ -10,39 +11,28 @@ class Secret_Message(commands.Cog):
 
     
 
-    @commands.command()
-    #@slash.slash(name="encode", description="Scambles text")
-    async def encode(self, ctx, *args):
+    @app_commands.command(name="encode", description="Scrambles text")
+    @app_commands.describe(secret_message="The text you want scrambled")
+    async def encode(self, interaction, secret_message:str):
         message = ""
-        if (args):
-            args = " ".join(args)
-            for element in args:
-                element = chr(ord(element) + self.CODE_KEY)
-                message += element
-            await ctx.send(message)
-        else:
-            for element in self.SECRET_ERROR:
-                element = chr(ord(element) + self.CODE_KEY)
-                message += element
-            await ctx.send(message)
+        for element in secret_message:
+            element = chr(ord(element) + self.CODE_KEY)
+            message += element
+        await interaction.response.send_message(message)
 
 
     ###############################################################################################################################
 
 
 
-    @commands.command()
-    #@slash.slash(name="decode", description="Descrambles text")
-    async def decode(self, ctx, *args):
+    @app_commands.command(name="decode", description="Unscrambles text from encode")
+    @app_commands.describe(secret_message="The text you want unscrambled")
+    async def decode(self, interaction, secret_message:str):
         message = ""
-        if (args):
-            args = " ".join(args)
-            for element in args:
-                element = chr(ord(element) - self.CODE_KEY)
-                message += element
-            await ctx.send(message)
-        else:
-            await ctx.send("Invalid Input: You must provide text to decode")
+        for element in secret_message:
+            element = chr(ord(element) + self.CODE_KEY)
+            message += element
+        await interaction.response.send_message(message)
 
 
 async def setup(bot):

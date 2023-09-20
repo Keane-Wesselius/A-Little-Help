@@ -1,4 +1,5 @@
 from discord.ext import commands
+from discord import app_commands
 
 #A cog is an extension to the discord bot 
 #All cogs must follow the format shown here for it to work
