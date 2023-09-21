@@ -1,4 +1,60 @@
+import re
+num_pattern = r'(?:^|(?<=[^0-9.]))-(?=[0-9.])|(?:[0-9]*\.[0-9]+|[0-9]+)'
 
+def input_to_output(expression):
+    shunted = shunting_yard(expression)
+    calculated = calculate(shunted)
+    return calculated
+
+
+def calculate(shunted):
+    answer = []
+
+    while len(shunted) > 0:
+
+        if shunted[0][0] == "E":
+            return shunted[0]
+
+        elif is_number(shunted[0]):
+            answer.append(shunted[0])
+            shunted = shunted[1:]
+
+        elif shunted[0] == "+":
+            if is_okay_to_math(answer):
+                y = float(answer.pop())
+                x = float(answer.pop())
+                answer.append(str(x + y))
+                shunted = shunted[1:]
+
+        elif shunted[0] == "-":
+            if is_okay_to_math(answer):
+                y = float(answer.pop())
+                x = float(answer.pop())
+                answer.append(str(x - y))
+                shunted = shunted[1:]
+            
+        elif shunted[0] == "*":
+            if is_okay_to_math(answer):
+                y = float(answer.pop())
+                x = float(answer.pop())
+                answer.append(str(x * y))
+                shunted = shunted[1:]
+
+        elif shunted[0] == "/":
+            if is_okay_to_math(answer):
+                y = float(answer.pop())
+                x = float(answer.pop())
+                answer.append(str(x / y))
+                shunted = shunted[1:]
+
+        elif shunted[0] == "^":
+            if is_okay_to_math(answer):
+                y = float(answer.pop())
+                x = float(answer.pop())
+                answer.append(str(x ** y))
+                shunted = shunted[1:]
+
+    return answer[0]
 
 #BECASUE YOUR CALCULATOR WAS SO COOL YOU NEED TO MAKE SURE THE INPUTS ARE RIGHT OTHERWISE THIS CALCULATOR IS GOING TO GET FUCKED UP "+ +" KINDA STUFF
 def shunting_yard(orginal_equation:str):
@@ -167,6 +223,17 @@ def remove_first_char(string):
     #else nothing left to extract
     else:
         return []
+    
 
+def is_okay_to_math(answer):
+    if len(answer) > 1:
+        if is_number(answer[0]) and is_number(answer[1]):
+            return True
+    return False
 
-print(shunting_yard("5.432 + (3 - 4) * 2"))
+def is_number(possible_number):
+    if re.match(num_pattern, possible_number):
+        return True
+    return False
+
+print(input_to_output("(3 + 4 - 1 + 2 + -8)^0"))
