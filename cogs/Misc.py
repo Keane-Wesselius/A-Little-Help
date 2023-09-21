@@ -19,7 +19,7 @@ class Misc(commands.Cog):
     async def addBot(self, ctx):
         await ctx.send(self.BOT_LINK)
     
-    
+
     #Get the ping of the bot
     @app_commands.command(name='ping', description="Get bot's latenecy")
     async def ping(self, interaction):
@@ -30,8 +30,7 @@ class Misc(commands.Cog):
     @app_commands.command(name="test", description="I hope this works")
     @app_commands.choices(day=[
     app_commands.Choice(name='Monday', value=1),
-    app_commands.Choice(name='Tuesday', value=24)
-])
+    app_commands.Choice(name='Tuesday', value=24)])
     async def test(self, interaction, day: app_commands.Choice[int]):
         await interaction.response.send_message(interaction.guild)
 

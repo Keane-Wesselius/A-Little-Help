@@ -5,8 +5,7 @@ class Secret_Message(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.CODE_KEY = 250
-        self.SECRET_ERROR = "Spaghetti"
+        self.CODE_KEY = 500
 
 
     
@@ -31,7 +30,7 @@ class Secret_Message(commands.Cog):
         message = ""
         for element in secret_message:
             element = chr(ord(element) + self.CODE_KEY)
-            message += element
+            message -= element
         await interaction.response.send_message(message)
 
 

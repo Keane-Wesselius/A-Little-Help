@@ -27,29 +27,38 @@ class Calculator(commands.Cog):
     @app_commands.command(name="calc", description="Calculator")
     @app_commands.describe(expression="The math to calculate")
     async def calc(self, interaction, expression:str):
+        pass
 
-        expression = expression.replace("^", "**")
-        
 
-        try:
-            await interaction.response.send_message(eval(expression))
+    def shunting_yard(self, orginal_equation:str):
+        equation = orginal_equation
+        shunted = []
+        while len(equation > 0):
+            current = equation[0]
 
-        except SyntaxError:
-            await interaction.response.send_message("ERROR: Syntax")
+            if current.isdigit():
+                if len(equation > 1):
+                    i = 1
+                    if (equation[i].isdigit() or equation[i] == '.'):                  
+                        while True:
+                            if len(equation) > i + 1 and (equation[i + 1].isdigit() or equation[i + 1] == '.'):
+                                i += 1
+                            else:
+                                break
+                        current = equation[0:i]
+                        shunted.append(current)
+                        if len(equation) > i+1:
+                            equation = equation[i+1:]
+                        continue
+                    equation = equation[1:]
 
-        #log stuff
-        except ValueError:
-            await interaction.response.send_message("ERROR: log can only accept numbers greater than 0")
+                shunted.append(current)
 
-        #for sets
-        except TypeError:
-            await interaction.response.send_message("ERROR: { } produces an error, try using ( ) instead")
+            else:
+                if len(equation) > 1:
+                    equation = equation[1:]
+                
 
-        except ZeroDivisionError:
-            await interaction.response.send_message("ERROR: divide by zero")
-
-        except Exception:
-            await interaction.response.send_message("Unknown Error")
 
 
 async def setup(bot):
