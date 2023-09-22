@@ -236,4 +236,4 @@ def is_number(possible_number):
         return True
     return False
 
-print(input_to_output("(3 + 4 - 1 + 2 + -8)^0"))
+print(input_to_output("(32 - 30 + 500 - 492)^2"))
