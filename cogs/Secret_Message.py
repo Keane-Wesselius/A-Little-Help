@@ -29,8 +29,8 @@ class Secret_Message(commands.Cog):
     async def decode(self, interaction, secret_message:str):
         message = ""
         for element in secret_message:
-            element = chr(ord(element) + self.CODE_KEY)
-            message -= element
+            element = chr(ord(element) - self.CODE_KEY)
+            message += element
         await interaction.response.send_message(message)
 
 
