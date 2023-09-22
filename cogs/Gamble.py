@@ -20,12 +20,12 @@ class Gamble(commands.Cog):
 
     @app_commands.command(name="dice", description="Rolls a dice")
     @app_commands.describe(sides="How many sides are on the dice")
-    async def dice(self, interaction, sides:app_commands.Range[int, 1]):
+    async def dice(self, interaction, sides:app_commands.Range[int, 1] = 6):
         roll = random.randint(1, sides)
         await interaction.response.send_message(roll)
     
 
-    
+
 
 
 
