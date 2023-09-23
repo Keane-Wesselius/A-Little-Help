@@ -12,7 +12,7 @@ def calculate(shunted):
 
     while len(shunted) > 0:
 
-        if shunted[0][0] == "E":
+        if "ERROR" in shunted[0]:
             return shunted[0]
 
         elif is_number(shunted[0]):
@@ -87,10 +87,12 @@ def shunting_yard(orginal_equation:str):
 
         else:
             shunted.append(f"ERROR: Unknown symbol {current}")
+            equation = remove_first_char(equation)
         
     while len(operators) > 0:
         if operators[0] == "(":
             shunted.append("ERROR: Mismatched parentheses")
+            equation = remove_first_char(equation)
         shunted.append(operators.pop())
 
 
@@ -147,7 +149,7 @@ def extract_operator(current, equation, shunted, operators):
     if current == ")":
         if len(operators) == 0:
             shunted.append("ERROR: Mismatched parentheses")
-            return "a"
+            return []
         while len(operators) > 0:
             if operators[-1] != "(":
                 shunted.append(operators.pop())
@@ -156,7 +158,7 @@ def extract_operator(current, equation, shunted, operators):
                 return remove_first_char(equation)
             else:
                 shunted.append("ERROR: Mismatched parentheses")
-                return "a"
+                return []
     
 
 
@@ -182,7 +184,7 @@ def extract_number(current, equation, shunted):
                 if len(equation) > i and (equation[i].isdigit() or equation[i] == '.'):
                     if equation[i] == '.' and found_decimal:
                         shunted.append("ERROR: Incorrect use of decimal points")
-                        return "a"
+                        return []
                     if equation[i] == '.':
                         found_decimal = True
                         must_number = True
@@ -236,4 +238,6 @@ def is_number(possible_number):
         return True
     return False
 
-print(input_to_output("(32 - 30 + 500 - 492)^2"))
+
+if __name__ == "__main__":
+    print(input_to_output("3.0"))
