@@ -18,7 +18,7 @@ class Calculator(commands.Cog):
     @app_commands.describe(expression="The math to calculate")
     async def calculate(self, interaction, expression:str):
         answer = calc.input_to_output(expression)
-        interaction.response.send_message(f"{expression} = {answer}")
+        await interaction.response.send_message(f"{expression} = {answer}")
         
 
 
