@@ -27,13 +27,6 @@ class Misc(commands.Cog):
 
 
 
-    @app_commands.command(name="test", description="I hope this works")
-    @app_commands.choices(day=[
-    app_commands.Choice(name='Monday', value=1),
-    app_commands.Choice(name='Tuesday', value=24)])
-    async def test(self, interaction, day: app_commands.Choice[int]):
-        await interaction.response.send_message(interaction.guild)
-
 
 async def setup(bot):
     await bot.add_cog(Misc(bot))
