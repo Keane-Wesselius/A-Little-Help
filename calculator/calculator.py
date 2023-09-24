@@ -1,4 +1,5 @@
 import re
+#Matches all numbers, decimal points, and - signs, Excludes the minus sign by itself. Basically checks if its a valid number
 num_pattern = r'(?:^|(?<=[^0-9.]))-(?=[0-9.])|(?:[0-9]*\.[0-9]+|[0-9]+)'
 
 def input_to_output(expression):
