@@ -26,6 +26,9 @@ class Misc(commands.Cog):
         await interaction.response.send_message(f' Pong! {round(self.bot.latency * 1000)}ms')
 
 
+    @app_commands.command(name="test", description="Whats it gonna be today?")
+    async def test(self, interaction):
+        await interaction.response.send_message("1.02")
 
 
 async def setup(bot):
