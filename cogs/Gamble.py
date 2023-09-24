@@ -2,9 +2,7 @@ from discord.ext import commands
 from discord import app_commands
 import random
 
-#A cog is an extension to the discord bot 
-#All cogs must follow the format shown here for it to work
-#Each cog is a class with the methods of that class being the discord bot's features for that cog
+
 class Gamble(commands.Cog):
 
     def __init__(self, bot):
