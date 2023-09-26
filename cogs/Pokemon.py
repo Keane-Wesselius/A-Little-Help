@@ -7,7 +7,7 @@ class Pokemon(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-
+    @app_commands.command(name="pokemon", description='hehe')
     @app_commands.choices(poke=[
     app_commands.Choice(name='Bulbasaur', value=1),
     app_commands.Choice(name='Ivysaur', value=60),
