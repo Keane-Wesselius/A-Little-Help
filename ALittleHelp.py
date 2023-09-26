@@ -5,6 +5,7 @@ from discord.ext import commands
 #List to hold all the cogs (bot commands in other files)
 EXTENSIONS = [
     'cogs.Calculator',
+    'cogs.Pokemon',
     'cogs.Gamble',
     'cogs.Secret_Message',
     'cogs.Misc',
