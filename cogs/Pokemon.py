@@ -8,7 +8,7 @@ class Pokemon(commands.Cog):
         self.bot = bot
 
 
-    @app_commands.choices(time_unit=[
+    @app_commands.choices(poke=[
     app_commands.Choice(name='Bulbasaur', value=1),
     app_commands.Choice(name='Ivysaur', value=60),
     app_commands.Choice(name='Venusaur', value=1440),
